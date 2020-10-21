@@ -62,12 +62,13 @@ class Momentum {
                                                           });
 
     this.currentHour = date.toLocaleString('ru-RU', {hour: '2-digit'});
+    this.currentMinSec = date.toLocaleString('ru-RU', {minute: '2-digit', second: '2-digit'});
 
-    this.greeting.innerHTML = (this.currentHour <= 6) ? 'night' :
-                              (this.currentHour <= 12) ? 'morning' :
-                              (this.currentHour <= 18) ? 'day' : 'evening';
+    this.greeting.innerHTML = (this.currentHour < 6) ? 'night' :
+                              (this.currentHour < 12) ? 'morning' :
+                              (this.currentHour < 18) ? 'day' : 'evening';
 
-    if (this.currentHour != date.toLocaleString('ru-RU', {hour: '2-digit'})) {
+    if (this.currentMinSec == '00:00') {
       this.currentTheme = +this.currentHour;
       this.changeBackground();
     }
