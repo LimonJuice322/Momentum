@@ -1,34 +1,88 @@
 'use strict'
 
 class Momentum {
-  constructor(timeElement, greetingElement, nameElement, focusElement) {
+  constructor(timeElement, dateElement, greetingElement, nameElement, focusElement) {
     this.currentTime = timeElement;
+    this.currentDate = dateElement;
     this.currentHour = undefined;
+    this.currentTheme = undefined;
+    this.themes = this.getThemes();
     this.greeting = greetingElement;
     this.name = nameElement;
     this.focus = focusElement;
     this.setTime();
   }
 
+  getRandom(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  getThemes() {
+    let array = [];
+    for (let i = 0; i < 24; i++) {
+      let theme;
+      if (i < 6) {
+        do {
+          theme = `assets/img/night/day${this.getRandom(1, 12)}.jpg`;
+        } while (array.includes(theme));
+        array.push(theme);
+      } else if (i < 12) {
+        do {
+          theme = `assets/img/morning/day${this.getRandom(1, 12)}.jpg`;
+        } while (array.includes(theme));
+        array.push(theme);
+      } else if (i < 18) {
+        do {
+          theme = `assets/img/day/day${this.getRandom(1, 12)}.jpg`;
+        } while (array.includes(theme));
+        array.push(theme);
+      } else {
+        do {
+          theme = `assets/img/evening/day${this.getRandom(1, 12)}.jpg`;
+        } while (array.includes(theme));
+        array.push(theme);
+      }
+    }
+    return array;
+  }
+
   setTime() {
     let date = new Date();
     this.currentTime.innerHTML = date.toLocaleString('ru-RU', {
-                                                            weekday: 'long',
-                                                            month: 'long',
-                                                            day: 'numeric',
                                                             hour: '2-digit',
                                                             minute: '2-digit',
                                                             second: '2-digit'
                                                           });
+    this.currentDate.innerHTML = date.toLocaleString('en-EN', {
+                                                            weekday: 'long',
+                                                            month: 'long',
+                                                            day: 'numeric'
+                                                          });
+
     this.currentHour = date.toLocaleString('ru-RU', {hour: '2-digit'});
-    this.greeting.innerHTML = (this.currentHour >= 0 && this.currentHour <= 6) ? 'night, ' :
-                              (this.currentHour > 6 && this.currentHour <= 12) ? 'morning, ' :
-                              (this.currentHour > 12 && this.currentHour <= 18) ? 'day, ' : 'evening, ';
-    this.changeBackground();
+
+    this.greeting.innerHTML = (this.currentHour <= 6) ? 'night' :
+                              (this.currentHour <= 12) ? 'morning' :
+                              (this.currentHour <= 18) ? 'day' : 'evening';
+
+    if (this.currentHour != date.toLocaleString('ru-RU', {hour: '2-digit'})) {
+      this.currentTheme = +this.currentHour;
+      this.changeBackground();
+    }
   }
 
   changeBackground() {
-    document.body.style = `background-image: url("assets/img/day${+this.currentHour+1}.jpg")`
+    document.body.style = `background-image: url(${this.themes[+this.currentTheme]})`;
+  }
+
+  setTheme() {
+    if (this.currentTheme == 23) {
+      this.currentTheme = 0;
+    } else if (this.currentTheme == undefined) {
+      this.currentTheme = +this.currentHour;
+    } else this.currentTheme += 1;
   }
 
   getData() {
@@ -58,7 +112,7 @@ class Momentum {
     if (evt.key == 'Enter') this.blur();
   }
 
-  timer() {
+  setTimer() {
     setInterval(this.setTime.bind(this), 1000);
   }
 
@@ -72,13 +126,24 @@ class Momentum {
   }
 }
 
-let time = document.querySelector('time');
+let time = document.querySelector('.time');
+let date = document.querySelector('.date');
 let greeting = document.querySelector('.greeting')
 let name = document.querySelector('.name');
 let focus = document.querySelector('.focus');
+let btnChangeTheme = document.querySelector('.change-theme');
 
-let momentum = new Momentum(time, greeting, name, focus);
+let momentum = new Momentum(time, date, greeting, name, focus);
 
-momentum.timer();
+momentum.setTimer();
 momentum.getData();
 momentum.initializeListeners();
+momentum.setTheme();
+momentum.changeBackground();
+
+btnChangeTheme.addEventListener('click', function() {
+  momentum.setTheme();
+  momentum.changeBackground();
+  btnChangeTheme.disabled = true;
+  setTimeout(() => btnChangeTheme.disabled = false, 1000);
+})
