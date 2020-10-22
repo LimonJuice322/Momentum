@@ -131,7 +131,7 @@ class Momentum {
       this.weatherIcon.classList.remove(this.weatherIcon.classList[2]);
       this.weatherIcon.classList.add(`owf-${data.weather[0].id}`);
       this.weatherTemperature.innerHTML = `${data.main.temp}&#176;C`;
-      this.weatherWind.innerHTML = `${data.wind.speed} м/с`;
+      this.weatherWind.innerHTML = `${data.wind.speed} m/s`;
       this.weatherHumidity.innerHTML = `${data.main.humidity}%`;
     } catch(err) {
       if (err.message == "Cannot read property '0' of undefined") {
