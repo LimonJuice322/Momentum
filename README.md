@@ -14,6 +14,6 @@ This app has simple functions:
 8. Change the quote by clicking "Change quote"
 
 ## Example
-![Example](/assets/example.jpg)
+![Example](assets/img/example.jpg)
 
 Open it in your browser: [Momentum](https://limonjuice322.github.io/Momentum/)
