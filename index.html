@@ -4,20 +4,40 @@
     <meta charset="utf-8">
     <meta name="" content="">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/owfont-regular.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Momentum</title>
   </head>
   <body>
     <main class="momentum">
-      <time></time>
+      <div class="forecast">
+        <span class="city" contenteditable="true"></span><span class="icon owf"></span>
+        <span>Temperature:</span><span class="temperature"></span>
+        <span>Wind:</span><span class="wind"></span>
+        <span>Humidity:</span><span class="humidity"></span>
+      </div>
+      <time>
+        <span class="time"></span>
+        <span class="date"><span>
+      </time>
       <h1 class="greetings">
         Good
-        <span class="greeting"></span>
+        <span class="greeting"></span>,
         <span class="name" contenteditable="true"></span>
       </h1>
-      <h2>
-        What is your focus for today?
-      </h2>
-      <p class="focus" contenteditable="true"></p>
+      <div class="task">
+        <h2>Your task for today</h2>
+        <p class="focus" contenteditable="true"></p>
+        <button class="change-theme" type="button">Change theme</button>
+      </div>
+      <div class="quote">
+        <h2>Quote of the Day</h2>
+        <figure>
+          <blockquote></blockquote>
+          <figcaption></figcaption>
+        </figure>
+        <button class="change-quote" type="button">Change quote</button>
+      </div>
     </main>
     <script src="script.js"></script>
   </body>
